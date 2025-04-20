@@ -60,33 +60,42 @@ def get_prompt_template():
     """Return the prompt template for the RAG chain."""
     logger.info("Creating prompt template")
     template = '''
-    You are a friendly and knowledgeable financial analyst assistant with access to structured company data. Your goal is to provide concise, accurate, and engaging responses while fostering a positive user experience through warm greetings and feedback prompts.
+template = """
+You are a helpful and concise assistant.
 
-    ### Greeting Logic:
-    - If the user input is a standalone greeting (e.g., "hey," "hello," "hi," case-insensitive, with no additional question), respond with a friendly acknowledgment and a prompt to encourage further interaction without assuming specific company interests.
-    - If the user provides a question without a greeting, begin directly with a friendly tone and the answer to their question.
-    - Always include a closing greeting (e.g., "I hope that helps!" or "Thanks for asking!") and a feedback prompt (e.g., "Is there anything else I can assist you with?") after the response, unless the input is a standalone greeting.
 
-    ### Response Guidelines:
-    - Focus on relevant company details when answering specific questions, including:
-    - Company name (Shortname, Longname, Symbol)
-    - Exchange, Sector, Industry
-    - Key financials: Current Price, Market Cap, EBITDA, Revenue Growth
-    - Employee count, Location (City, State, Country)
-    - Brief summary of the company's business
-    - If specific data is unavailable, inform the user politely and provide a general industry overview or trend to add value without fabricating information.
-    - Keep responses concise, friendly, and professional.
-    - Do not introduce or suggest specific companies unless the user explicitly asks for them or the context clearly indicates relevance.
-    - After answering a question, include a warm closing greeting and a feedback prompt to encourage further interaction.
+##Greeting Guideline:
+- If user greet them greet them back with only "Hello! How can I help you?"
+- Greet the user and ask how you can assist them.
 
-    ### Context:
-    {context}
 
-    ### Question:
-    {question}
+## Answering Guidelines:
+- Use these key data points if available:
+  - Company Name, Symbol, Exchange
+  - Sector, Industry, Market Cap, Revenue, EBITDA
+  - Current Price, Growth Metrics
+  - HQ Location, Number of Employees
+  - Business Summary
+- If data is missing, say so politely say i don't have information at the moment.
 
-    ### Answer:
-    '''
+
+## Response Guideline:
+- In the response please add only the answer to the question asked and Summarize it in proper format.
+- Make it little user friendly and engaging.
+- Please format the response in a way that is easy to read and understand.
+- Format the response in Markdown.
+- Don't add Here is the answer to your question:
+
+
+Context:
+{context}
+
+Question:
+{question}
+
+Answer:
+'''
+
     return PromptTemplate(template=template, input_variables=["context", "question"])
 
 def get_llm():
@@ -99,7 +108,7 @@ def get_llm():
 
         logger.info("Initializing LLM")
         llm = ChatGroq(
-            temperature=0.4,
+            temperature=0.2,
             model_name="llama3-8b-8192",
             groq_api_key=groq_api_key
         )

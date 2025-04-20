@@ -22,14 +22,17 @@ load_dotenv()
 st.set_page_config(page_title="Company Insights Chatbot", layout="centered")
 
 # Title and New Chat Button
-col1, col2 = st.columns([0.85, 0.15])
+# Title and New Chat Button
+col1, col2 = st.columns([0.8, 0.2])
 with col1:
-    st.title("💼 Company Insights Chatbot")
+    st.markdown("## 💼 Company Insights Chatbot")  # Smaller and better aligned title
 with col2:
-    if st.button("🧹 New Chat"):
+    new_chat = st.button("🧹 New Chat", use_container_width=True)
+    if new_chat:
         logger.info("New chat session initiated")
         st.session_state.chat_history = []
         st.rerun()
+
 
 st.caption("Ask about companies, financial metrics, sectors, or business insights")
 
