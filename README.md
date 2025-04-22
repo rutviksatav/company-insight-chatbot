@@ -1,93 +1,124 @@
-Company Insights Chatbot
-Overview
-A Streamlit-based Retrieval-Augmented Generation (RAG) chatbot that acts as a friendly financial analyst assistant. It answers queries about company data, financial metrics, sectors, and industries using vector search, embeddings, and a large language model (LLM).
-Features
+# Company Insights Chatbot
 
-Friendly, interactive UI with chat history and source details.
-Provides company info: name, exchange, sector, financials (price, market cap, etc.), employees, location, and business summary.
-Logs errors for debugging.
-Securely loads credentials via environment variables.
-Supports "New Chat" to reset conversation.
-Displays source documents for transparency.
+A Streamlit-based chatbot that provides insights about companies, including financial metrics, sectors, industries, and business summaries, using a Retrieval-Augmented Generation (RAG) pipeline.
 
-Requirements
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Dependencies](#dependencies)
+- [Environment Variables](#environment-variables)
+- [Logging](#logging)
+- [Limitations](#limitations)
+- [Contributing](#contributing)
+- [License](#license)
 
-Python 3.8+
-Dependencies (install via pip install -r requirements.txt):
-streamlit
-langchain_community
-langchain_groq
-langchain_core
-python-dotenv
-faiss-cpu
-sentence-transformers
-groq
+## Overview
+The Company Insights Chatbot is a web application built with Streamlit, leveraging a RAG pipeline to answer user queries about companies. It uses a FAISS vector store for document retrieval, HuggingFace embeddings for text processing, and the Groq API for language model inference. The chatbot is designed to provide concise, company-specific insights based on pre-indexed data.
 
+## Features
+- **Interactive Chat Interface**: Users can ask questions about companies, financial metrics, sectors, and industries.
+- **Example Prompts**: Displays sample questions to guide users (e.g., "What is the market cap of Microsoft?").
+- **Chat History**: Maintains conversation history within a session, with a "New Chat" button to reset.
+- **Source Attribution**: Shows source documents for answers, including company details and metadata.
+- **Input Validation**: Ensures queries are valid and within length limits (500 characters).
+- **Error Handling**: Logs errors and displays user-friendly messages for issues like initialization failures.
+- **Logging**: Comprehensive logging to both file (`app.log`) and console for debugging.
 
-Environment variables:
-HUGGINGFACE_TOKEN: HuggingFace model access token.
-GROQ_API_KEY: Groq LLM API key.
+## Installation
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository-url>
+   cd company-insights-chatbot
+   ```
 
+2. **Set Up a Virtual Environment**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
+3. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Setup
+4. **Set Up Environment Variables**:
+   Create a `.env` file in the project root and add the following:
+   ```
+   HUGGINGFACE_TOKEN=<your-huggingface-token>
+   GROQ_API_KEY=<your-groq-api-key>
+   ```
 
-Clone the Repository:
-git clone <repository-url>
-cd <repository-directory>
+5. **Prepare FAISS Index**:
+   Ensure the FAISS vector store (`faiss_index`) is available in the project directory. This should contain pre-indexed company data.
 
+## Usage
+1. **Run the Application**:
+   ```bash
+   streamlit run app.py
+   ```
 
-Install Dependencies:
-pip install -r requirements.txt
+2. **Interact with the Chatbot**:
+   - Open the app in your browser (typically at `http://localhost:8501`).
+   - Enter queries like "Tell me about Apple Inc." or "What is the market cap of Microsoft?".
+   - Use the "New Chat" button to start a fresh session.
+   - Type "help" or "examples" to see sample prompts.
 
+3. **View Logs**:
+   Check `app.log` for detailed logs of application events, errors, and queries.
 
-Set Up Environment Variables: Create a .env file in the project root:
-HUGGINGFACE_TOKEN=<your-huggingface-token>
-GROQ_API_KEY=<your-groq-api-key>
+## Project Structure
+```
+company-insights-chatbot/
+├── app.py              # Main Streamlit application
+├── utils.py            # Utility functions for RAG pipeline setup
+├── faiss_index/        # FAISS vector store directory
+├── app.log             # Log file
+├── .env                # Environment variables
+├── requirements.txt    # Project dependencies
+└── README.md           # This file
+```
 
+## Dependencies
+- `streamlit`: Web app framework
+- `langchain`: RAG pipeline and LLM integration
+- `langchain_community`: FAISS vector store and HuggingFace embeddings
+- `langchain_groq`: Groq API integration
+- `python-dotenv`: Environment variable management
+- `logging`: Logging functionality
 
-Prepare FAISS Index: Ensure a faiss_index directory exists with pre-indexed company data compatible with the sentence-transformers/all-MiniLM-L6-v2 model.
+Install dependencies using:
+```bash
+pip install streamlit langchain langchain_community langchain_groq python-dotenv
+```
 
+## Environment Variables
+- `HUGGINGFACE_TOKEN`: API token for HuggingFace embeddings.
+- `GROQ_API_KEY`: API key for Groq language model.
 
-Usage
+Ensure these are set in the `.env` file or your environment.
 
-Run the Application:
-streamlit run main.py
+## Logging
+- Logs are written to `app.log` and printed to the console.
+- Log levels include `INFO`, `WARNING`, and `ERROR`.
+- Key events logged: application startup, query processing, errors, and RAG chain initialization.
 
-This launches the Streamlit app, which:
+## Limitations
+- **Data Dependency**: Answers are limited to the data in the FAISS vector store.
+- **Query Scope**: Only responds to company-specific questions; other queries return a fallback message.
+- **Character Limit**: Queries are capped at 500 characters.
+- **Offline Operation**: Requires internet access for HuggingFace and Groq APIs.
 
-Loads embeddings (sentence-transformers/all-MiniLM-L6-v2).
-Loads the FAISS vector store.
-Uses Groq LLM (llama3-8b-8192).
-Sets up the RetrievalQA chain with a custom prompt.
+## Contributing
+Contributions are welcome! Please:
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature-name`).
+3. Commit changes (`git commit -m "Add feature"`).
+4. Push to the branch (`git push origin feature-name`).
+5. Open a pull request.
 
-
-Interact with the Chatbot:
-
-Open the app in your browser.
-Ask about companies (e.g., "What are Apple's financials?") or say "hello" for a greeting.
-View answers, chat history, and expandable source details.
-Click "New Chat" to reset the conversation.
-
-
-
-Code Structure
-
-Main Script (main.py): Streamlit app with UI, chat logic, and query processing.
-Utils (utils.py): Contains RAG chain setup (embeddings, vector store, LLM, and prompt).
-Logging: Outputs to app.log and console (INFO for operations, ERROR for issues).
-Embeddings: Uses sentence-transformers/all-MiniLM-L6-v2.
-Vector Store: FAISS for fast similarity search.
-LLM: Groq llama3-8b-8192 (temperature 0.4).
-Prompt: Ensures friendly, concise answers.
-RAG Chain: Combines retrieval and generation (top 5 results).
-
-Notes
-
-FAISS index must be pre-generated.
-Set environment variables to avoid errors.
-Queries are validated (non-empty, <500 characters).
-If data is missing, general industry insights are provided.
-
-License
-MIT License. See LICENSE file for details.
+## License
+This project is licensed under the MIT License. See the `LICENSE` file for details.
