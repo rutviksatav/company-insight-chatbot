@@ -1,8 +1,8 @@
-streamlit
-pandas
-langchain
-langchain-community
-langchain-groq
-faiss-cpu
-sentence-transformers
-python-dotenv
+streamlit = 1.44.1
+pandas = 2.2.2
+langchain = 0.3.23
+langchain-community = 0.3.21
+langchain-groq = 0.3.2
+faiss-cpu = 1.10.0
+sentence-transformers = 4.1.0
+python-dotenv = 0.21.0

@@ -1,5 +1,10 @@
 # Company Insights Chatbot
 
+**[Live Demo](https://company-insight-chatbot.streamlit.app/)**
+
+![App Screenshot](screenshot.png)
+
+A Streamlit-based chatbot that provides insights about companies, including financial metrics, sectors, industries, and business summaries, using a Retrieval-Augmented Generation (RAG) pipeline.
 A Streamlit-based chatbot that provides insights about companies, including financial metrics, sectors, industries, and business summaries, using a Retrieval-Augmented Generation (RAG) pipeline.
 
 ## Table of Contents
