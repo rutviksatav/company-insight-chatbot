@@ -78,7 +78,15 @@ for message in st.session_state.chat_history:
 
 # Chat Input
 query = st.chat_input("Ask about companies, metrics, or industries...")
-
+EXAMPLE_PROMPTS = [
+    "Tell me about Apple Inc.",
+    "What is the market cap of Microsoft?",
+    "Which sector does Amazon belong to?",
+    "Give me a summary of Alphabet Inc.",
+    "How many employees does JPMorgan Chase have?",
+    "Where is the headquarters of Nvidia located?",
+    "Which industry does Johnson & Johnson operate in?",
+]
 # Process query
 if query:
     logger.info(f"Received user query: {query}")
@@ -86,6 +94,24 @@ if query:
     if not is_valid:
         st.error(error_message)
         logger.warning(f"Invalid query: {error_message}")
+    elif query.strip().lower() in ["help", "example", "examples", "show prompts"]:
+        # Show example prompts instead of querying the RAG chain
+        st.session_state.chat_history.append({
+            "role": "user",
+            "content": query
+        })
+
+        example_text = "**Here are some example prompts you can try:**\n\n"
+        for prompt in EXAMPLE_PROMPTS:
+            example_text += f"- {prompt}\n"
+
+        st.session_state.chat_history.append({
+            "role": "assistant",
+            "content": example_text
+        })
+
+        logger.info("Displayed example prompts to user")
+        st.rerun()
     else:
         try:
             st.session_state.chat_history.append({"role": "user", "content": query})
