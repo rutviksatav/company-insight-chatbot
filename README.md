@@ -2,7 +2,10 @@
 
 **[Live Demo](https://company-insight-chatbot.streamlit.app/)**
 
-![Watch the Demo Video](demo.webm)
+<video controls>
+  <source src="assets/demo.webm" type="video/webm">
+  Your browser does not support the video tag.
+</video>
 
 A Streamlit-based chatbot that provides insights about companies, including financial metrics, sectors, industries, and business summaries, using a Retrieval-Augmented Generation (RAG) pipeline.
 A Streamlit-based chatbot that provides insights about companies, including financial metrics, sectors, industries, and business summaries, using a Retrieval-Augmented Generation (RAG) pipeline.
