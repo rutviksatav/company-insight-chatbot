@@ -92,7 +92,7 @@ company-insights-chatbot/
 
 Install dependencies using:
 ```bash
-pip install streamlit langchain langchain_community langchain_groq python-dotenv
+pip install -r requirements.txt
 ```
 
 ## Environment Variables
